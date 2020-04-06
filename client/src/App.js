@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import io from "socket.io-client";
-export const socket = io.connect();
+import View from "./View";
+export const socket = io.connect("localhost:80");
 
 let pc = null;
 
@@ -156,33 +157,7 @@ function App() {
 
 	return (
 		<div className="App">
-			{!call ? (
-				<>
-					<div className="users">
-						<h1>Users:</h1>
-						<div className="users-online">
-							{usersCount === 1 ? (
-								<div className="user"></div>
-							) : (
-								<>
-									<div className="user"></div>
-									<div className="user"></div>
-								</>
-							)}
-						</div>
-					</div>
-					{usersCount === 2 && (
-						<button className="call" onClick={() => handlerCall()}>
-							Позвонить
-						</button>
-					)}
-				</>
-			) : (
-				<>
-					<video ref={localVideo} autoPlay controls muted width={width} height={height}></video>
-					<video ref={remoteVideo} autoPlay controls width={width} height={height}></video>
-				</>
-			)}
+			<View prop={{ call, usersCount, localVideo, remoteVideo, width, height, handlerCall }} />
 		</div>
 	);
 }

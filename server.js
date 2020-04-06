@@ -6,11 +6,11 @@ const path = require("path");
 
 const port = 80;
 
-//app.use(express.static(path.join(__dirname, "client", "public")));
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, "client", "public")));
+//app.use(express.static(path.join(__dirname, "client", "build")));
 app.get("/", (req, res) => {
-	//res.sendFile(path.join(__dirname, "index.html"));
-	res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+	res.sendFile(path.join(__dirname, "index.html"));
+	//res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 let userCount = 0;
