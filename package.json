@@ -1,0 +1,21 @@
+{
+	"name": "webrtcp2p",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"dependencies": {
+		"express": "^4.17.1",
+		"socket.io": "^2.3.0"
+	},
+	"devDependencies": {
+		"concurrently": "^5.1.0"
+	},
+	"scripts": {
+		"client": "cd client && npm run start",
+		"server": "nodemon server",
+		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
