@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import io from "socket.io-client";
 import View from "./View";
 export const socket = io.connect("localhost:80");
@@ -11,12 +11,12 @@ function App() {
 	const [call, setcall] = useState(false);
 	const [offerer, setOfferer] = useState(false);
 	const [usersCount, setusersCount] = useState(1);
-	const peerConfig = { iceServers: [{ urls: ["stun:stun4.l.google.com:19302"] }] };
+	const peerConfig = useMemo(() => ({ iceServers: [{ urls: ["stun:stun4.l.google.com:19302"] }] }), []);
 	const [localStream, setLocalStream] = useState();
 	const [width, setwidth] = useState(320);
 	const [height, setheight] = useState(240);
 
-	function videoSize() {
+	const videoSize = useCallback(() => {
 		const browserWidth = document.documentElement.clientWidth;
 		const browserHeight = document.documentElement.clientHeight;
 		const ratio = browserWidth / browserHeight;
@@ -27,16 +27,16 @@ function App() {
 			setheight(height);
 			setwidth(width);
 		}
-	}
+	}, []);
 
 	useEffect(() => {
 		socket.on("user count", (count) => setusersCount(count));
 	}, [setusersCount]);
 
-	const handlerCall = () => {
+	const handlerCall = useCallback(() => {
 		setcall(true);
 		socket.emit("call");
-	};
+	}, []);
 
 	useEffect(() => {
 		if (call) {
@@ -141,9 +141,7 @@ function App() {
 					console.error("не удалось применить  RemoteDescription ", answer, e);
 				});
 		});
-	}, []);
 
-	useEffect(() => {
 		socket.on("getCandidat", (candidat) => {
 			if (pc.localDescription) {
 				pc.addIceCandidate(candidat)

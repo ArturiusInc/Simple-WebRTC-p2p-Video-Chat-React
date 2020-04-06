@@ -7,11 +7,9 @@ export default function View(props) {
 			<div className="users">
 				<h1>Users online:</h1>
 				<div className="users-online">
-					{Array(usersCount)
-						.fill(1)
-						.map(() => (
-							<div className="user"></div>
-						))}
+					{[...Array(usersCount)].map(() => (
+						<div className="user"></div>
+					))}
 				</div>
 			</div>
 			{usersCount === 2 && (
